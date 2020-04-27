@@ -1,25 +1,5 @@
 import 'package:flutter/material.dart';
 
-//Alias name: androiddebugkey
-//Creation date: Feb 10, 2020
-//Entry type: PrivateKeyEntry
-//Certificate chain length: 1
-//Certificate[1]:
-//Owner: C=US, O=Android, CN=Android Debug
-//Issuer: C=US, O=Android, CN=Android Debug
-//Serial number: 1
-//Valid from: Mon Feb 10 10:02:28 IST 2020 until: Wed Feb 02 10:02:28 IST 2050
-//Certificate fingerprints:
-//SHA1: 9A:BE:8A:14:2D:B3:75:B1:84:B5:8C:51:D6:38:83:8B:7C:15:C9:61
-//SHA256: 4B:65:05:29:8C:F5:2B:01:40:03:4A:EE:D5:7F:4F:DF:16:A8:02:EC:AC:CB:29:77:B9:F4:61:BA:42:E2:09:A8
-//Signature algorithm name: SHA1withRSA
-//Subject Public Key Algorithm: 2048-bit RSA key
-//Version: 1
-//
-//Warning:
-//The JKS keystore uses a proprietary format. It is recommended to migrate to PKCS12 which is an industry standard format using "keytool -importkeyst
-//ore -srckeystore C:\Users\sviye\.android\debug.keystore -destkeystore C:\Users\sviye\.android\debug.keystore -deststoretype pkcs12".
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
