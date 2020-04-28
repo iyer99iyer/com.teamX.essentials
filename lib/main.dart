@@ -1,3 +1,9 @@
+import 'package:essentials/screens/shopkeper_screens/s_authentication.dart';
+import 'package:essentials/screens/shopkeper_screens/shopkeeper_login.dart';
+import 'package:essentials/screens/shopkeper_screens/shopkeeper_signup.dart';
+import 'package:essentials/screens/user_screens/u_authentication.dart';
+import 'package:essentials/screens/user_screens/user_login.dart';
+import 'package:essentials/screens/welcome.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -11,11 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
-        body: Center(
-          child: Text('Firebase setup done'),
-        ),
-      ),
+      home: Wellcome(),
     );
   }
 }
