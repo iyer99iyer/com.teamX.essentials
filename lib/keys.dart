@@ -1,3 +1,9 @@
+// ShopKeeper Secret Key = maVWVO, maXUVO
+
+
+
+
+
 //Alias name: androiddebugkey
 //Creation date: Feb 10, 2020
 //Entry type: PrivateKeyEntry
@@ -81,3 +87,6 @@
 //BUILD SUCCESSFUL in 42s
 //1 actionable task: 1 executed
 //4:03:12 PM: Task execution finished 'signingReport'.
+
+
+

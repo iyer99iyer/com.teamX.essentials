@@ -2,7 +2,7 @@ import 'package:essentials/screens/shopkeper_screens/s_authentication.dart';
 import 'package:essentials/screens/user_screens/u_authentication.dart';
 import 'package:flutter/material.dart';
 
-class Wellcome extends StatelessWidget {
+class Welcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
