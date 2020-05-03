@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:essentials/models/user.dart';
-import 'package:geolocation/geolocation.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class DatabaseServices {
   final User user;
@@ -12,6 +12,8 @@ class DatabaseServices {
       Firestore.instance.collection('users');
   final CollectionReference skeyCollection =
       Firestore.instance.collection('skey');
+  final CollectionReference shopCollection =
+      Firestore.instance.collection('shops');
 
   Future updateUserData(
       {String name,
@@ -21,8 +23,6 @@ class DatabaseServices {
       double locationLng}) async {
     return await userCollection.document(uid).setData({
       'email': email,
-      'locationLat': locationLat,
-      'locationLng': locationLng,
       'name': name,
       'type': 'user',
     }).catchError((e) {
@@ -38,12 +38,27 @@ class DatabaseServices {
       double locationLng}) async {
     return await userCollection.document(uid).setData({
       'email': email,
-      'locationLat': locationLat,
-      'locationLng': locationLng,
       'name': name,
       'type': 'shop',
     }).catchError((e) {
       print(e);
+    });
+  }
+
+  Future updateShopData(
+      {String shopName,
+      String email,
+      int number,
+      List<String> shopType,
+      LatLng location}) async {
+    await shopCollection.document().setData({
+      'email': email,
+      'shopName': shopName,
+      'shopType': shopType,
+      'location': location,
+      'number': number,
+    }).catchError((onError) {
+      print(onError);
     });
   }
 
@@ -92,7 +107,10 @@ class DatabaseServices {
   Future<bool> validateKey(String skey) async {
     bool result = false;
 
-    await skeyCollection.where('key', isEqualTo: skey).getDocuments().then((docs) {
+    await skeyCollection
+        .where('key', isEqualTo: skey)
+        .getDocuments()
+        .then((docs) {
       if (docs.documents[0].exists) {
         result = true;
       } else {

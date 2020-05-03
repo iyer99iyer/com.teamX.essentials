@@ -1,8 +1,13 @@
 import 'package:essentials/models/user.dart';
+import 'package:essentials/screens/google_maps.dart';
+import 'package:essentials/screens/maps.dart';
+import 'package:essentials/screens/shopkeper_screens/new_vendor.dart';
 import 'package:essentials/screens/shopkeper_screens/s_authentication.dart';
 import 'package:essentials/screens/shopkeper_screens/shopkeeper_login.dart';
 import 'package:essentials/screens/shopkeper_screens/shopkeeper_signup.dart';
+import 'package:essentials/screens/shopkeper_screens/vendor_dashboard.dart';
 import 'package:essentials/screens/user_screens/u_authentication.dart';
+import 'package:essentials/screens/user_screens/user_dashboard.dart';
 import 'package:essentials/screens/user_screens/user_login.dart';
 import 'package:essentials/screens/welcome.dart';
 import 'package:essentials/services/auth.dart';
@@ -19,9 +24,10 @@ class MyApp extends StatelessWidget {
     return StreamProvider<User>.value(
       value: AuthService().user,
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.green,
         ),
         home: Wrapper(),
       ),
