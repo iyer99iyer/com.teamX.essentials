@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:essentials/models/user.dart';
 import 'package:essentials/screens/shopkeper_screens/vendor_dashboard.dart';
 import 'package:essentials/screens/user_screens/user_dashboard.dart';
-import 'package:essentials/services/auth.dart';
 import 'package:essentials/shared/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Dashboard extends StatefulWidget {
   final User user;
@@ -16,39 +16,51 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  final AuthService _auth = AuthService();
-
   String auth;
   bool status = false;
 
-  static String userid = 'iyervivek199@gmail.com';
+  static String userid = 'iyervivek1999@teamX.com';
 
   getSomeStuff() async {
-    var result = await Firestore.instance
-        .collection('users')
-        .where('email', isEqualTo: widget.user.emailId)
-        .getDocuments();
+    try {
+      print(
+          'cloud email and iyervivek1999@teamX.com = ${widget.user.emailId == userid}');
+      print('yo from dashborad : ${widget.user.emailId}');
+      var result = await Firestore.instance
+          .collection('users')
+          .where('email', isEqualTo: widget.user.emailId)
+          .getDocuments();
 
-    if (result.documents[0].exists) {
-      setState(() {
-        auth = result.documents[0].data['type'];
+      print(result.documents);
 
-        status = true;
-      });
+      if (result.documents[0].exists) {
+        setState(() {
+          auth = result.documents[0].data['type'];
+          print('yo from dashborad');
+          status = true;
+        });
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getSomeStuff();
   }
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+
     return status
-        ? auth == 'user' ? UserDashboard() : VendorDashboard()
+        ? auth == 'user'
+            ? UserDashboard()
+            : VendorDashboard(
+                user: user,
+              )
         : Loading();
   }
 }

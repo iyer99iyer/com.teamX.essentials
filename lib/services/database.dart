@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:essentials/models/shopkeeper.dart';
 import 'package:essentials/models/user.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class DatabaseServices {
   final User user;
@@ -48,18 +48,55 @@ class DatabaseServices {
   Future updateShopData(
       {String shopName,
       String email,
-      int number,
+      String number,
       List<String> shopType,
-      LatLng location}) async {
+      GeoPoint location,
+      String name}) async {
     await shopCollection.document().setData({
       'email': email,
       'shopName': shopName,
       'shopType': shopType,
       'location': location,
       'number': number,
+      'name': name,
     }).catchError((onError) {
       print(onError);
     });
+  }
+
+  ShopKeeper _shopKeeperFromShops(QuerySnapshot docs) {
+    print(docs.documents[0].data['shopName']);
+
+    return docs != null
+        ? ShopKeeper(
+            shopName: docs.documents[0].data['shopName'],
+            email: docs.documents[0].data['email'],
+            number: docs.documents[0].data['number'],
+            shopType: docs.documents[0].data['shopType'],
+            location: docs.documents[0].data['location'],
+            name: docs.documents[0].data['name'],
+          )
+        : null;
+  }
+
+  Future<ShopKeeper> getShopData(String email) async {
+    try {
+      QuerySnapshot docs =
+          await shopCollection.where('email', isEqualTo: email).getDocuments();
+      //     .then((docs) {
+      //   print(docs.documents[0].data['shopName']);
+      //   return _shopKeeperFromShops(docs);
+      // });
+      print(docs);
+      if (docs.documents[0].exists) {
+        return _shopKeeperFromShops(docs);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 
   Future<bool> getVenderAutherisation(String email) async {

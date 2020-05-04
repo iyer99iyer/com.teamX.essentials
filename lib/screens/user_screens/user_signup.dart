@@ -192,8 +192,11 @@ class _UserSignUpState extends State<UserSignUp> {
                                   print('Email already in use');
                                 } else {
                                   print('Registered successfully');
+                                  setState(() {
+                                    email = email.toLowerCase().trim();
+                                  });
                                   _databaseServices.updateUserData(
-                                    email: email,
+                                    email: email.toLowerCase().trim(),
                                     name: name,
                                     uid: result.uid,
                                     locationLat: 0,

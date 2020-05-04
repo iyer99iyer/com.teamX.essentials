@@ -206,9 +206,9 @@ class _ShopkeeperSignUpState extends State<ShopkeeperSignUp> {
                                 setState(() {
                                   loading = true;
                                 });
-                                bool key_result =
+                                bool keyResult =
                                     await _databaseServices.validateKey(sKey);
-                                if (key_result) {
+                                if (keyResult) {
                                   var result = await _auth.registerEmailPass(
                                       email, password);
                                   if (result == null) {
@@ -219,8 +219,11 @@ class _ShopkeeperSignUpState extends State<ShopkeeperSignUp> {
                                     print('Email already in use');
                                   } else {
                                     print('Registered successfully');
+                                    setState(() {
+                                      email = email.trim().toLowerCase();
+                                    });
                                     _databaseServices.updateVendorData(
-                                      email: email,
+                                      email: email.toLowerCase().trim(),
                                       name: name,
                                       uid: result.uid,
                                       locationLat: 0,

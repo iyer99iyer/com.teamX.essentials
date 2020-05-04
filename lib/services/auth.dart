@@ -1,6 +1,5 @@
 import 'package:essentials/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;

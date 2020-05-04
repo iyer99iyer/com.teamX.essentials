@@ -1,4 +1,3 @@
-import 'package:essentials/models/user.dart';
 import 'package:essentials/services/auth.dart';
 import 'package:essentials/services/database.dart';
 import 'package:essentials/shared/loading.dart';

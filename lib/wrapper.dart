@@ -1,7 +1,6 @@
 import 'package:essentials/dashboard.dart';
 import 'package:essentials/models/user.dart';
 import 'package:essentials/screens/welcome.dart';
-import 'package:essentials/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
