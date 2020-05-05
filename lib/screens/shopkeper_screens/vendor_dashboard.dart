@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:essentials/coming_soon.dart';
 import 'package:essentials/models/shopkeeper.dart';
 import 'package:essentials/models/user.dart';
 import 'package:essentials/screens/shopkeper_screens/new_vendor.dart';
@@ -6,6 +7,7 @@ import 'package:essentials/services/auth.dart';
 import 'package:essentials/services/database.dart';
 import 'package:essentials/shared/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class VendorDashboard extends StatefulWidget {
   final User user;
@@ -27,11 +29,12 @@ class _VendorDashboardState extends State<VendorDashboard> {
   bool shopStatus = false;
   bool loading = false;
 
+  String storeStatus = 'open';
+
   // String name;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     getData();
@@ -43,6 +46,13 @@ class _VendorDashboardState extends State<VendorDashboard> {
     if (shopKeeper != null) {
       print(
           'adlsjfkjkafsdkjfjkfadsjafsdjkdfsajklfadsjkl ${shopKeeper.name},${shopKeeper.number},${shopKeeper.email}');
+      setState(() {
+        if (shopKeeper.storeStatus == 'open') {
+          shopStatus = true;
+        } else {
+          shopStatus = false;
+        }
+      });
     }
 
     setState(() {
@@ -61,7 +71,38 @@ class _VendorDashboardState extends State<VendorDashboard> {
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         onTap: () {
-                          _auth.signout();
+                          return Alert(
+                            context: context,
+                            type: AlertType.warning,
+                            title: "Logout?",
+                            desc: "Do you really want to logout?",
+                            buttons: [
+                              DialogButton(
+                                child: Text(
+                                  "Confirm",
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 20),
+                                ),
+                                onPressed: () {
+                                  _auth.signout();
+                                  Navigator.pop(context);
+                                },
+                                color: Colors.grey,
+                              ),
+                              DialogButton(
+                                child: Text(
+                                  "Cancel",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                                onPressed: () => Navigator.pop(context),
+                                gradient: LinearGradient(colors: [
+                                  Color.fromRGBO(116, 116, 191, 1.0),
+                                  Color.fromRGBO(52, 138, 199, 1.0)
+                                ]),
+                              )
+                            ],
+                          ).show();
                         },
                         child: Center(
                             child: Text('Logout',
@@ -113,14 +154,78 @@ class _VendorDashboardState extends State<VendorDashboard> {
                             style:
                                 TextStyle(fontSize: 24, color: Colors.blueGrey),
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                shopStatus = !shopStatus;
-                              });
-                            },
-                            child: Container(
-                                width: double.infinity,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              GestureDetector(
+                                onTap: () async {
+                                  print(storeStatus);
+
+                                  if (shopStatus) {
+                                    storeStatus = 'closed';
+                                  } else {
+                                    storeStatus = 'open';
+                                  }
+
+                                  setState(() {
+                                    status = false;
+                                  });
+                                  await Firestore.instance
+                                      .collection('shops')
+                                      .document(shopKeeper.docId)
+                                      .updateData({'storeStatus': storeStatus});
+
+                                  await Firestore.instance
+                                      .collection('shops')
+                                      .document(shopKeeper.docId)
+                                      .get()
+                                      .then((onValue) {
+                                    setState(() {
+                                      shopStatus = !shopStatus;
+                                      storeStatus = onValue.data['storeStatus'];
+                                      status = true;
+                                    });
+                                  });
+                                },
+                                child: status
+                                    ? Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                .4,
+                                        decoration: BoxDecoration(
+                                          //border: Border.all(color: Colors.blue, width: 4),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Icon(
+                                              Icons.power_settings_new,
+                                              size: 150,
+                                              color: shopStatus
+                                                  ? Colors.green
+                                                  : Colors.red,
+                                            ),
+                                            Text(
+                                              shopStatus ? 'Open' : 'Closed',
+                                              style: TextStyle(
+                                                  color: shopStatus
+                                                      ? Colors.green
+                                                      : Colors.red,
+                                                  fontSize: 40),
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    : Center(
+                                        child: Text('Please Wait'),
+                                      ),
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width * .4,
+                                height: 200,
                                 decoration: BoxDecoration(
                                   //border: Border.all(color: Colors.blue, width: 4),
                                   borderRadius: BorderRadius.circular(20),
@@ -128,21 +233,28 @@ class _VendorDashboardState extends State<VendorDashboard> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    Icon(
-                                      Icons.power_settings_new,
-                                      size: 150,
-                                      color: status ? Colors.green : Colors.red,
+                                    Image(
+                                      image: AssetImage('assets/delivery.png'),
+                                      fit: BoxFit.fitWidth,
+                                      color: shopStatus
+                                          ? Colors.green
+                                          : Colors.red,
+                                    ),
+                                    SizedBox(
+                                      height: 20,
                                     ),
                                     Text(
-                                      shopStatus ? 'Open' : 'Closed',
+                                      shopStatus ? 'Available' : '',
                                       style: TextStyle(
-                                          color: status
+                                          color: shopStatus
                                               ? Colors.green
                                               : Colors.red,
-                                          fontSize: 40),
+                                          fontSize: 30),
                                     )
                                   ],
-                                )),
+                                ),
+                              )
+                            ],
                           ),
                           Divider(
                             height: 40,
@@ -158,7 +270,14 @@ class _VendorDashboardState extends State<VendorDashboard> {
                             height: 30,
                           ),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ComingSoon(),
+                                ),
+                              );
+                            },
                             child: Container(
                                 margin: EdgeInsets.all(8),
                                 decoration: BoxDecoration(

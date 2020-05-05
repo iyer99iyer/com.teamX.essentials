@@ -183,16 +183,6 @@ class _UserLoginState extends State<UserLogin> {
                             child: Text('Login'),
                           ),
                           MaterialButton(
-                            onPressed: () {},
-                            minWidth: screenWidth,
-                            height: 45,
-                            child: Text(
-                              'Login with OTP',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            color: Colors.grey,
-                          ),
-                          MaterialButton(
                             elevation: 0,
                             color: Colors.white,
                             minWidth: screenWidth,
@@ -201,7 +191,7 @@ class _UserLoginState extends State<UserLogin> {
                             onPressed: () {
                               widget.toogleView();
                             },
-                            child: Text('Sign Up'),
+                            child: Text('Create Account'),
                           ),
                           SizedBox(
                             height: 20,

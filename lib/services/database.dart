@@ -59,6 +59,7 @@ class DatabaseServices {
       'location': location,
       'number': number,
       'name': name,
+      'storeStatus': 'closed',
     }).catchError((onError) {
       print(onError);
     });
@@ -75,6 +76,8 @@ class DatabaseServices {
             shopType: docs.documents[0].data['shopType'],
             location: docs.documents[0].data['location'],
             name: docs.documents[0].data['name'],
+            docId: docs.documents[0].documentID,
+            storeStatus: docs.documents[0].data['storeStatus'],
           )
         : null;
   }
@@ -93,6 +96,33 @@ class DatabaseServices {
       } else {
         return null;
       }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<ShopKeeper> getShopDataWithDocId(String docId) async {
+    try {
+      ShopKeeper shopKeeper;
+      await shopCollection.document(docId).get().then((onValue) {
+        if (onValue.exists) {
+          shopKeeper = ShopKeeper(
+            storeStatus: 'closed',
+            docId: onValue.documentID,
+            email: onValue.data['email'],
+            location: onValue.data['location'],
+            name: onValue.data['name'],
+            number: onValue.data['number'],
+            shopName: onValue.data['shopName'],
+            shopType: onValue.data['shopType'],
+          );
+        } else {
+          print('Error in retriving data or converting');
+          shopKeeper = null;
+        }
+      });
+      return shopKeeper;
     } catch (e) {
       print(e);
       return null;

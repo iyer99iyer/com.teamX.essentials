@@ -182,17 +182,6 @@ class _ShopkeeperSignUpState extends State<ShopkeeperSignUp> {
                           SizedBox(
                             height: 5,
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              print('Forgot Password!');
-                            },
-                            child: Text(
-                              'Forgot password?',
-                              style: TextStyle(
-                                color: Colors.blueAccent,
-                              ),
-                            ),
-                          ),
                           SizedBox(
                             height: 25,
                           ),

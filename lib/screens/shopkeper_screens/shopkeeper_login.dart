@@ -190,7 +190,9 @@ class _ShopkeeperLoginState extends State<ShopkeeperLogin> {
                             onPressed: () {
                               widget.toogleView();
                             },
-                            child: Text('Sign Up'),
+                            child: Text(
+                              'Create Account',
+                            ),
                           ),
                           SizedBox(
                             height: 20,

@@ -1,8 +1,10 @@
 import 'dart:ui';
 
+import 'package:essentials/coming_soon.dart';
 import 'package:essentials/screens/google_maps.dart';
 import 'package:essentials/services/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class UserDashboard extends StatefulWidget {
   @override
@@ -18,13 +20,48 @@ class _UserDashboardState extends State<UserDashboard> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.menu),
+        elevation: 0.0,
+        // backgroundColor: Colors.white,
+        leading: Icon(
+          Icons.menu,
+          color: Colors.white,
+          size: 40,
+        ),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
               onTap: () {
-                _auth.signout();
+                return Alert(
+                  context: context,
+                  type: AlertType.warning,
+                  title: "Logout?",
+                  desc: "Do you really want to logout?",
+                  buttons: [
+                    DialogButton(
+                      child: Text(
+                        "Confirm",
+                        style: TextStyle(color: Colors.black, fontSize: 20),
+                      ),
+                      onPressed: () {
+                        _auth.signout();
+                        Navigator.pop(context);
+                      },
+                      color: Colors.grey,
+                    ),
+                    DialogButton(
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                      onPressed: () => Navigator.pop(context),
+                      gradient: LinearGradient(colors: [
+                        Color.fromRGBO(116, 116, 191, 1.0),
+                        Color.fromRGBO(52, 138, 199, 1.0)
+                      ]),
+                    )
+                  ],
+                ).show();
               },
               child: Center(
                   child: Text('Logout', style: TextStyle(color: Colors.white))),
@@ -32,89 +69,130 @@ class _UserDashboardState extends State<UserDashboard> {
           )
         ],
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                'LIST OF STORES',
-                style: TextStyle(
-                  fontSize: 25,
-                  color: Color(0xFF8B4F4F),
-                  fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  height: 20,
                 ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
+                Text(
+                  'STORES NEAR YOUR LOCATION',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 23,
+                    color: Color(0xFF8B4F4F),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  '(click on any of the following to continue...)',
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
                         builder: (context) => GoogleMaps(
-                              shopType: 'med',
-                              title: 'Medical Shops Near you',
-                            )),
-                  );
-                },
-                child: CustomTileWidget(
-                  width: width,
-                  path: 'assets/medical.png',
-                  title: 'Medical',
-                  subTitle: '“When the heart is at ease, the body is healthy”',
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => GoogleMaps(
-                        shopType: 'veg',
-                        title: 'Medical Shops Near you',
+                          shopType: 'med',
+                          title: 'Medical Shops near you',
+                        ),
                       ),
-                    ),
-                  );
-                },
-                child: CustomTileWidget(
-                  width: width,
-                  path: 'assets/vegetables.jpg',
-                  title: 'Vegetables',
-                  subTitle: '“Vegetables deplete soil”',
+                    );
+                  },
+                  child: CustomTileWidget(
+                    width: width,
+                    path: 'assets/med2.png',
+                    title: 'Medical Stores',
+                    subTitle: '',
+                  ),
                 ),
-              ),
-              GestureDetector(
-                child: CustomTileWidget(
-                  width: width,
-                  path: 'assets/grocery.jpg',
-                  title: 'Grocery',
-                  subTitle: '“I like my freedom”',
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GoogleMaps(
+                          shopType: 'veg',
+                          title: 'Vegetable Shops near you',
+                        ),
+                      ),
+                    );
+                  },
+                  child: CustomTileWidget(
+                    width: width,
+                    path: 'assets/vegetables.jpg',
+                    title: 'Vegetables Stores',
+                    subTitle: '',
+                  ),
                 ),
-              ),
-              GestureDetector(
-                child: CustomTileWidget(
-                  width: width,
-                  path: 'assets/dairy.jpg',
-                  title: 'Dairy',
-                  subTitle:
-                      '“I\'m not a Twinkie lover. I don\'t do sugar or dairy either”',
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GoogleMaps(
+                          shopType: 'gro',
+                          title: 'Grosary Shops near you',
+                        ),
+                      ),
+                    );
+                  },
+                  child: CustomTileWidget(
+                    width: width,
+                    path: 'assets/grocery.jpg',
+                    title: 'Grocery Stores',
+                    subTitle: '',
+                  ),
                 ),
-              ),
-              GestureDetector(
-                child: CustomTileWidget(
-                  width: width,
-                  path: 'assets/bakery.jpg',
-                  title: 'Bakeries',
-                  subTitle: '“Nothing smells home like the smell of bakery”',
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GoogleMaps(
+                          shopType: 'dairy',
+                          title: 'Dairy Shops near you',
+                        ),
+                      ),
+                    );
+                  },
+                  child: CustomTileWidget(
+                    width: width,
+                    path: 'assets/dairy.jpg',
+                    title: 'Dairy Products',
+                    subTitle: '(Click Here)',
+                  ),
                 ),
-              )
-            ],
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ComingSoon(),
+                      ),
+                    );
+                  },
+                  child: CustomTileWidget(
+                    width: width,
+                    path: 'assets/bakery.jpg',
+                    title: 'Bakeries',
+                    subTitle: '',
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -139,7 +217,9 @@ class CustomTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(8),
+      margin: EdgeInsets.symmetric(
+        vertical: MediaQuery.of(context).size.height * .015,
+      ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         gradient: LinearGradient(
@@ -154,7 +234,7 @@ class CustomTileWidget extends StatelessWidget {
         ),
       ),
       height: 100,
-      width: width,
+      width: width * .9,
       child: Center(
         child: Row(
           children: <Widget>[
@@ -179,21 +259,21 @@ class CustomTileWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  title,
-                  style: TextStyle(fontSize: 22, color: Colors.white),
+                Container(
+                  width: width * .4,
+                  child: Text(
+                    title,
+                    style: TextStyle(fontSize: 22, color: Colors.white),
+                  ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 Container(
-                  width: width * .5,
+                  width: width * .4,
                   child: Text(
-                    subTitle,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 15,
-                    ),
+                    'Click here...',
+                    style: TextStyle(fontSize: 19, color: Colors.red),
                   ),
                 ),
               ],

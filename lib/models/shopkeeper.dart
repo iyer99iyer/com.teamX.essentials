@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ShopKeeper {
   final String shopName;
@@ -8,13 +7,17 @@ class ShopKeeper {
   final List<dynamic> shopType;
   final GeoPoint location;
   final String name;
+  final String docId;
+  final String storeStatus;
 
   ShopKeeper({
+    this.docId,
     this.shopName,
     this.email,
     this.number,
     this.shopType,
     this.location,
     this.name,
+    this.storeStatus,
   });
 }

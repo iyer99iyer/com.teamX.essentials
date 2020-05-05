@@ -1,4 +1,5 @@
 // key = AIzaSyCDoY1h9Paae93OdPcQehjponIjHl6Ja-c;
+import 'package:essentials/screens/user_screens/store_detail_page.dart';
 import 'package:essentials/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -52,7 +53,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            'Vegetable Shop',
+            widget.title,
             style: TextStyle(color: Colors.white),
           ),
           centerTitle: true,
@@ -63,7 +64,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
                   Stack(
                     children: <Widget>[
                       Container(
-                        height: MediaQuery.of(context).size.height * .91,
+                        height: MediaQuery.of(context).size.height * .89,
                         width: MediaQuery.of(context).size.width,
                         child: GoogleMap(
                           initialCameraPosition: CameraPosition(
@@ -72,22 +73,29 @@ class _GoogleMapsState extends State<GoogleMaps> {
                             zoom: 14,
                           ),
                           markers: Set.from(allMarkers),
+                          myLocationEnabled: true,
+                          zoomControlsEnabled: false,
+                          myLocationButtonEnabled: true,
                           onMapCreated: mapCreated,
                         ),
                       ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
+                      Positioned(
+                        right: 10,
+                        bottom: 50,
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Color(0xAAFFFFFF),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            margin: EdgeInsets.all(8),
+                            child: IconButton(
+                                icon: Icon(Icons.my_location),
+                                onPressed: () {
+                                  getCurrentLocation();
+                                }),
                           ),
-                          margin: EdgeInsets.all(8),
-                          child: IconButton(
-                              icon: Icon(Icons.my_location),
-                              onPressed: () {
-                                getCurrentLocation();
-                              }),
                         ),
                       ),
                       Align(
@@ -95,7 +103,25 @@ class _GoogleMapsState extends State<GoogleMaps> {
                         child: Material(
                           elevation: 10,
                           color: Colors.green,
-                          child: Text('vegetable shops'),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                'Click on this ',
+                                style: TextStyle(
+                                    color: Colors.yellow, fontSize: 18),
+                              ),
+                              Icon(
+                                Icons.location_on,
+                                color: Colors.red,
+                              ),
+                              Text(
+                                'to continue...',
+                                style: TextStyle(
+                                    color: Colors.yellow, fontSize: 18),
+                              ),
+                            ],
+                          ),
                         ),
                       )
                     ],
@@ -121,6 +147,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
       });
     });
     addMarkerForCurrentLocation();
+    //addShops();
   }
 
   getCurrentLocation() {
@@ -144,9 +171,13 @@ class _GoogleMapsState extends State<GoogleMaps> {
     addShops();
   }
 
-  addShops() {
+  addShops() async {
     vegShops = [];
-    Firestore.instance.collection(widget.shopType).getDocuments().then((docs) {
+    print(widget.shopType.toString());
+    await Firestore.instance
+        .collection(widget.shopType)
+        .getDocuments()
+        .then((docs) {
       if (docs.documents.isNotEmpty) {
         if (allMarkers.length > 1) {
           allMarkers.removeRange(1, allMarkers.length);
@@ -154,6 +185,7 @@ class _GoogleMapsState extends State<GoogleMaps> {
         for (var i = 0; i < docs.documents.length; i++) {
           vegShops.add(docs.documents[i].data);
           createMarker(docs.documents[i].data);
+          print(docs.documents[i].data['shop_name']);
         }
       }
     });
@@ -163,6 +195,10 @@ class _GoogleMapsState extends State<GoogleMaps> {
     setState(() {
       allMarkers.add(
         Marker(
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => StoreDetail(id: shop)));
+          },
           markerId: MarkerId(
             shop['shop_name'],
           ),

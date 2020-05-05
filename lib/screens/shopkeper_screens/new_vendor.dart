@@ -1,6 +1,5 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:essentials/models/shopkeeper.dart';
 import 'package:essentials/models/user.dart';
 import 'package:essentials/screens/shopkeper_screens/vendor_dashboard.dart';
 import 'package:essentials/services/database.dart';
@@ -27,13 +26,15 @@ class _NewVendorState extends State<NewVendor> {
   bool dselect = false;
   bool bselect = false;
 
+  ShopKeeper shopKeeper;
+
   String shopName = '';
   String phoneNumber = '';
 
   GeoPoint location;
   Position position;
 
-  String errorText = 'yo';
+  String errorText = '';
 
   final _formKey = GlobalKey<FormState>();
 
@@ -41,7 +42,6 @@ class _NewVendorState extends State<NewVendor> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getLocation();
     getUserData();
@@ -211,7 +211,7 @@ class _NewVendorState extends State<NewVendor> {
                             size: 60,
                           ),
                           title: Text(
-                            'Grossary Shop',
+                            'Grocery Shop',
                             style: TextStyle(fontSize: 24),
                           ),
                           selected: gselect,
@@ -256,7 +256,7 @@ class _NewVendorState extends State<NewVendor> {
                             color: dselect ? Colors.blue : Colors.black,
                           ),
                           title: Text(
-                            'Diary Shop',
+                            'Dairy Shop',
                             style: TextStyle(fontSize: 24),
                           ),
                           selected: dselect,
@@ -284,7 +284,7 @@ class _NewVendorState extends State<NewVendor> {
                 shopType.add('veg');
               }
               if (gselect) {
-                shopType.add('grocery');
+                shopType.add('gro');
               }
               if (mselect) {
                 shopType.add('med');
@@ -298,13 +298,22 @@ class _NewVendorState extends State<NewVendor> {
                   location: location,
                   number: phoneNumber,
                   shopType: shopType,
-                  name : name);
+                  name: name);
               if (result == null) {
                 setState(() {
                   loading = false;
                   errorText = 'Some error occured';
                 });
               }
+
+              await _databaseServices
+                  .getShopData(widget.user.emailId)
+                  .then((data) {
+                print(data);
+                for (String shop in shopType) {
+                  updateTypeData(path: shop, shopKeeper: data);
+                }
+              });
 
               Navigator.push(
                 context,
@@ -339,5 +348,13 @@ class _NewVendorState extends State<NewVendor> {
         ),
       ),
     );
+  }
+
+  updateTypeData({ShopKeeper shopKeeper, String path}) async {
+    await Firestore.instance.collection(path).document().setData({
+      'location': shopKeeper.location,
+      'shopName': shopKeeper.name,
+      'docId': shopKeeper.docId,
+    });
   }
 }

@@ -9,7 +9,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="essentials"
+        android:label="Essentials"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
                 android:value="AIzaSyCDoY1h9Paae93OdPcQehjponIjHl6Ja-c"/>
