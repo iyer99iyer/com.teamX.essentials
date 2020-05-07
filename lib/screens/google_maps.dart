@@ -27,8 +27,6 @@ class _GoogleMapsState extends State<GoogleMaps> {
 
   Position currentLocation;
 
-  var vegShops = [];
-
   @override
   void initState() {
     super.initState();
@@ -172,7 +170,6 @@ class _GoogleMapsState extends State<GoogleMaps> {
   }
 
   addShops() async {
-    vegShops = [];
     print(widget.shopType.toString());
     await Firestore.instance
         .collection(widget.shopType)
@@ -183,7 +180,6 @@ class _GoogleMapsState extends State<GoogleMaps> {
           allMarkers.removeRange(1, allMarkers.length);
         }
         for (var i = 0; i < docs.documents.length; i++) {
-          vegShops.add(docs.documents[i].data);
           createMarker(docs.documents[i].data);
           print(docs.documents[i].data['shop_name']);
         }
@@ -191,23 +187,49 @@ class _GoogleMapsState extends State<GoogleMaps> {
     });
   }
 
-  createMarker(shop) {
+  createMarker(shop) async {
+    double dist = await getDistance(
+        LatLng(shop['location'].latitude, shop['location'].longitude));
+
+    print(dist);
+
     setState(() {
-      allMarkers.add(
-        Marker(
-          onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => StoreDetail(id: shop)));
-          },
-          markerId: MarkerId(
-            shop['shop_name'],
+      if (dist > 10 && dist < 3000) {
+        allMarkers.add(
+          Marker(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => StoreDetail(id: shop),
+                ),
+              );
+            },
+            markerId: MarkerId(
+              shop['shop_name'],
+            ),
+            infoWindow: InfoWindow(title: shop['shop_name']),
+            position:
+                LatLng(shop['location'].latitude, shop['location'].longitude),
           ),
-          infoWindow: InfoWindow(title: shop['shop_name']),
-          position:
-              LatLng(shop['location'].latitude, shop['location'].longitude),
-        ),
-      );
+        );
+      }
     });
+  }
+
+  getDistance(LatLng shopLocation) async {
+    double dist = 400;
+
+    await Geolocator()
+        .distanceBetween(currentLocation.latitude, currentLocation.longitude,
+            shopLocation.latitude, shopLocation.longitude)
+        .then((onValue) {
+      setState(() {
+        print('from geolocator : ' + onValue.toString());
+        dist = onValue;
+      });
+    });
+    return dist;
   }
 
   moveToLcoation(Position position) {

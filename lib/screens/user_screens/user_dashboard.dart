@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:essentials/coming_soon.dart';
+import 'package:essentials/constants.dart';
 import 'package:essentials/screens/google_maps.dart';
 import 'package:essentials/services/auth.dart';
 import 'package:flutter/material.dart';
@@ -220,18 +221,8 @@ class CustomTileWidget extends StatelessWidget {
       margin: EdgeInsets.symmetric(
         vertical: MediaQuery.of(context).size.height * .015,
       ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment
-              .bottomCenter, // 10% of the width, so there are ten blinds.
-          colors: [
-            const Color(0xFF0277BD),
-            const Color(0x000277BD)
-          ], // whitish to gray
-          tileMode: TileMode.repeated, // repeats the gradient over the canvas
-        ),
+      decoration: kGradientBoxDecoration.copyWith(
+        borderRadius: BorderRadius.circular(20),
       ),
       height: 100,
       width: width * .9,

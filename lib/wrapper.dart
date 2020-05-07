@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Return wheater home or welcome widget
+    // Return weather home or welcome widget
 
     final user = Provider.of<User>(context);
 
