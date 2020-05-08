@@ -1,5 +1,6 @@
-import 'package:essentials/coming_soon.dart';
+import 'package:essentials/constants.dart';
 import 'package:essentials/models/shopkeeper.dart';
+import 'package:essentials/screens/user_screens/store_items.dart';
 import 'package:essentials/services/database.dart';
 import 'package:essentials/shared/loading.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class StoreDetail extends StatefulWidget {
 }
 
 class _StoreDetailState extends State<StoreDetail> {
-  final TextStyle kTextstyle = TextStyle(fontSize: 20);
+  final TextStyle kTextStyle = TextStyle(fontSize: 14);
 
   DatabaseServices _databaseServices = DatabaseServices();
 
@@ -105,6 +106,7 @@ class _StoreDetailState extends State<StoreDetail> {
     return status
         ? Scaffold(
             appBar: AppBar(
+              centerTitle: true,
               //title: Text(widget.id['shop_name']),
               title: (shopKeeper != null)
                   ? Text(shopKeeper.shopName)
@@ -113,75 +115,83 @@ class _StoreDetailState extends State<StoreDetail> {
             body: SingleChildScrollView(
               child: Center(
                 child: Container(
+                    decoration: kGradientBoxDecoration,
                     child: Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 20,
-                    ),
-                    CircleAvatar(
-                      backgroundImage: AssetImage('assets/grocery.jpg'),
-                      radius: 50,
-                    ),
-                    ShopKeeperDetailWidget(
-                      kTextstyle: kTextstyle,
-                      infoTitle: 'Shop Status',
-                      infoAnswer: (shopKeeper != null)
-                          ? shopKeeper.storeStatus
-                          : 'null value',
-                    ),
-                    ShopKeeperDetailWidget(
-                      kTextstyle: kTextstyle,
-                      infoTitle: 'Shop Type',
-                      infoAnswer:
-                          shopKeeper != null ? shopType : widget.id.toString(),
-                    ),
-                    ShopKeeperDetailWidget(
-                      kTextstyle: kTextstyle,
-                      infoTitle: 'Phone Number',
-                      infoAnswer:
-                          shopKeeper != null ? shopKeeper.number : '9752078563',
-                    ),
-                    ShopKeeperDetailWidget(
-                      kTextstyle: kTextstyle,
-                      infoTitle: 'Address',
-                      infoAnswer:
-                          (address != null) ? address[0].addressLine : 'error',
-                    ),
-                    Divider(
-                      height: 40,
-                      thickness: 2,
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ComingSoon(),
-                          ),
-                        );
-                      },
-                      child: Container(
-                          margin: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey, width: 4),
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ClipRRect(
                             borderRadius: BorderRadius.circular(20),
+                            child: Container(
+                              child: Image.asset('assets/grocery.jpg'),
+                            ),
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                'List of Items Available',
-                                style: TextStyle(
-                                    color: Colors.black87, fontSize: 30),
-                              )
-                            ],
-                          )),
-                    ),
-                  ],
-                )),
+                        ),
+                        Divider(),
+                        ShopKeeperDetailWidget(
+                          kTextstyle: kTextStyle,
+                          infoTitle: 'Shop Status',
+                          infoAnswer: (shopKeeper != null)
+                              ? shopKeeper.storeStatus.toUpperCase()
+                              : 'null value',
+                        ),
+                        Divider(),
+                        ShopKeeperDetailWidget(
+                          kTextstyle: kTextStyle,
+                          infoTitle: 'Shop Type',
+                          infoAnswer: shopKeeper != null
+                              ? shopType
+                              : widget.id.toString(),
+                        ),
+                        Divider(),
+                        ShopKeeperDetailWidget(
+                          kTextstyle: kTextStyle,
+                          infoTitle: 'Phone Number',
+                          infoAnswer: shopKeeper != null
+                              ? shopKeeper.number
+                              : '9752078563',
+                        ),
+                        Divider(),
+                        ShopKeeperDetailWidget(
+                          kTextstyle: kTextStyle,
+                          infoTitle: 'Address',
+                          infoAnswer: (address != null)
+                              ? address[0].addressLine
+                              : 'error',
+                        ),
+                        Divider(),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => StoreItems(
+                                  docID: shopKeeper.docId,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Container(
+                              margin: EdgeInsets.all(8),
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: Colors.grey, width: 4),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    'List of Items Available',
+                                    style: TextStyle(
+                                        color: Colors.black87, fontSize: 20),
+                                  )
+                                ],
+                              )),
+                        ),
+                      ],
+                    )),
               ),
             ),
           )
@@ -204,25 +214,26 @@ class ShopKeeperDetailWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(16),
-      padding: EdgeInsets.all(8),
+      margin: EdgeInsets.all(8),
+      padding: EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.black, width: 2),
+//        border: Border.all(color: Colors.black, width: 2),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(
             infoTitle,
-            style: kTextstyle,
+            style: kTextstyle.copyWith(fontWeight: FontWeight.bold),
           ),
           // Text(
           //   ':',
           //   style: kTextstyle,
           // ),
           Container(
-            width: MediaQuery.of(context).size.width * .35,
+            width: MediaQuery.of(context).size.width * .4,
             child: Text(
               infoAnswer,
               style: kTextstyle,

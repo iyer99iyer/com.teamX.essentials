@@ -1,8 +1,12 @@
 import 'package:essentials/constants.dart';
-import 'package:essentials/shared/items_list.dart';
+import 'package:essentials/screens/user_screens/items_in_store_list.dart';
 import 'package:flutter/material.dart';
 
 class StoreItems extends StatefulWidget {
+  final String docID;
+
+  const StoreItems({Key key, @required this.docID}) : super(key: key);
+
   @override
   _StoreItemsState createState() => _StoreItemsState();
 }
@@ -40,7 +44,7 @@ class _StoreItemsState extends State<StoreItems> {
                     Container(
                       height: MediaQuery.of(context).size.height * .848 -
                           appBarHeight,
-                      child: ItemsList(),
+                      child: ItemsInStoreList(docID: widget.docID),
                     ),
                   ],
                 ),

@@ -1,10 +1,10 @@
 // key = AIzaSyCDoY1h9Paae93OdPcQehjponIjHl6Ja-c;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:essentials/screens/user_screens/store_detail_page.dart';
 import 'package:essentials/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class GoogleMaps extends StatefulWidget {
   const GoogleMaps({Key key, @required this.shopType, @required this.title})
@@ -48,21 +48,24 @@ class _GoogleMapsState extends State<GoogleMaps> {
 
   @override
   Widget build(BuildContext context) {
+    AppBar appBar = AppBar(
+      title: Text(
+        widget.title,
+        style: TextStyle(color: Colors.white),
+      ),
+      centerTitle: true,
+    );
+    double appBarSize = appBar.preferredSize.height;
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            widget.title,
-            style: TextStyle(color: Colors.white),
-          ),
-          centerTitle: true,
-        ),
+        appBar: appBar,
         body: mapToggle
             ? Column(
                 children: <Widget>[
                   Stack(
                     children: <Widget>[
                       Container(
-                        height: MediaQuery.of(context).size.height * .89,
+                        height: MediaQuery.of(context).size.height -
+                            appBarSize * 1.52,
                         width: MediaQuery.of(context).size.width,
                         child: GoogleMap(
                           initialCameraPosition: CameraPosition(
@@ -161,7 +164,9 @@ class _GoogleMapsState extends State<GoogleMaps> {
             ImageConfiguration(devicePixelRatio: 2.5), 'assets/pin_icon.png',
             mipmaps: true),
         markerId: MarkerId("myMarker"),
-        infoWindow: InfoWindow(title: 'Your Location'),
+        infoWindow: InfoWindow(
+          title: 'Your Location',
+        ),
         draggable: false,
         position: LatLng(currentLocation.latitude, currentLocation.longitude),
       ),

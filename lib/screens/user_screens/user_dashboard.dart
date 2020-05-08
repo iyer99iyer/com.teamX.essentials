@@ -217,27 +217,34 @@ class CustomTileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var sized = MediaQuery.of(context).size;
     return Container(
       margin: EdgeInsets.symmetric(
         vertical: MediaQuery.of(context).size.height * .015,
       ),
       decoration: kGradientBoxDecoration.copyWith(
+        border: Border.all(
+          color: Colors.blueGrey,
+          width: 2,
+        ),
         borderRadius: BorderRadius.circular(20),
       ),
       height: 100,
       width: width * .9,
       child: Center(
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Container(
               height: 100,
-              width: 150,
+              width: sized.width * .25,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Container(
                     decoration: BoxDecoration(
                   image: DecorationImage(
-                    fit: BoxFit.fill,
+                    fit: BoxFit.fitHeight,
                     image: AssetImage(path),
                   ),
                 )),
@@ -247,11 +254,11 @@ class CustomTileWidget extends StatelessWidget {
               width: 20,
             ),
             Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  width: width * .4,
+                  width: width * .5,
                   child: Text(
                     title,
                     style: TextStyle(fontSize: 22, color: Colors.white),
@@ -260,15 +267,19 @@ class CustomTileWidget extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                Container(
-                  width: width * .4,
-                  child: Text(
-                    'Click here...',
-                    style: TextStyle(fontSize: 19, color: Colors.red),
-                  ),
-                ),
+//                Container(
+//                  width: width * .4,
+//                  child: Text(
+//                    '',
+//                    style: TextStyle(fontSize: 19, color: Colors.red),
+//                  ),
+//                ),
               ],
-            )
+            ),
+            Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.white,
+            ),
           ],
         ),
       ),

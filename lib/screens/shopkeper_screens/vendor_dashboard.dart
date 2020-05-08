@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:essentials/coming_soon.dart';
 import 'package:essentials/models/shopkeeper.dart';
 import 'package:essentials/models/user.dart';
+import 'package:essentials/screens/shopkeper_screens/current_item_list.dart';
 import 'package:essentials/screens/shopkeper_screens/new_vendor.dart';
 import 'package:essentials/services/auth.dart';
 import 'package:essentials/services/database.dart';
@@ -274,7 +274,8 @@ class _VendorDashboardState extends State<VendorDashboard> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ComingSoon(),
+                                  builder: (context) =>
+                                      CurrentItemList(docID: shopKeeper.docId),
                                 ),
                               );
                             },
