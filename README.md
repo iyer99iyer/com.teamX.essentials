@@ -7,12 +7,12 @@ This is a application serve as a bridge between local vendors and customers. Thi
   <img src = "/Essential%20Demo/Screenshot_1627061211.png" height = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <img src = "/Essential%20Demo/Screenshot_1627061220.png" height = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <img src = "/Essential%20Demo/Screenshot_1627061225.png" height = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src = "/Essential%20Demo/Screenshot_1627061238.png" height = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+  <img src = "/Essential%20Demo/Screenshot_1627061238.png" height = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <img src = "/Essential%20Demo/Screenshot_1627062064.png" height = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <img src = "/Essential%20Demo/Screenshot_1627062067.png" height = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <img src ="/Essential%20Demo/Screenshot_1627062076.png" height = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <img src = "/Essential%20Demo/Screenshot_1627062104.png" height = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src = "/Essential%20Demo/Screenshot_1627062259.png" height = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+  <img src = "/Essential%20Demo/Screenshot_1627062259.png" height = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <img src = "/Essential%20Demo/Screenshot_1627062269.png" height = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <img src ="/Essential%20Demo/Screenshot_1627062459.png" height = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <img src = "/Essential%20Demo/Screenshot_1627062466.png" height = 300>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
