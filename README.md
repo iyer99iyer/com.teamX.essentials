@@ -1,16 +1,15 @@
-# essentials
+# Essentials 
 
-This is a application for providing essentials to the people during a adverse situation.
+This is a application serve as a bridge between local vendors and customers. This will create a whole new experience for the customer where they donot have to stand in line for getting groceries, or other things their local vendors sell.
 
-## Getting Started
+There are two application in one vendors will be provided a unique key through which they can create there online store and manage their items. The customer login does not need any unique key they can sign up.
 
-This project is a starting point for a Flutter application.
+once the vendor logged in they need to provide some basic details so that vendor are visible in the map.
 
-A few resources to get you started if this is your first Flutter project:
+the user once logged in can view all the vendor that are in 3 km radius and can view all the items that vendor sells and can request for home delivery if the vendor provides that service.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+This is a application for providing essentials to the people during pandemic like covid 19 but it also works very well in normal busy schedule.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Future:
+
+-> Add a system where user can order list of product and the vendor will notify user the time when that will be ready. This way there will be less rush in the stores but at the same time more sales can be expected.
